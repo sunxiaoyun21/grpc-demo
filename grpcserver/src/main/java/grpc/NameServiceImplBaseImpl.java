@@ -1,7 +1,8 @@
+package grpc;
+
 import io.grpc.examples.nameserver.Ip;
 import io.grpc.examples.nameserver.Name;
 import io.grpc.examples.nameserver.NameServiceGrpc;
-import io.grpc.examples.nameserver.NameServiceGrpc.NameServiceImplBase;
 import io.grpc.stub.StreamObserver;
 
 import java.util.HashMap;
