@@ -64,7 +64,6 @@ public class NettyServer {
         NettyServer nettyServer;
         nettyServer=new NettyServer();
         nettyServer.start();
-
-        //nettyServer.blockUntilShutdown();
+       nettyServer.blockUntilShutdown();
     }
 }

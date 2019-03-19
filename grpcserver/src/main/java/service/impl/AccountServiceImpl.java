@@ -14,6 +14,7 @@ public class AccountServiceImpl implements AccountService {
     private UserDao userDao;
 
     public User getUserByName(String name) {
+        System.out.println(userDao);
         return userDao.fetchByAccount(name);
     }
 }

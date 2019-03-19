@@ -7,11 +7,12 @@ import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import service.AccountService;
+import service.impl.AccountServiceImpl;
 
 public class AccountGrpcImpl extends GreeterGrpc.GreeterImplBase {
 
-    @Inject
-    private AccountService accountService ;
+
+    private AccountService accountService =new AccountServiceImpl();
 
     public  void  sayHello(HelloRequest req , StreamObserver<HelloReply> responseObserver){
         User user=accountService.getUserByName(req.getName());

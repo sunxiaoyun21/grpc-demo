@@ -28,6 +28,7 @@ public class NameServer {
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
             public void run() {
+                logger.warning("*** server shut down");
                NameServer.this.stop();
             }
         });
