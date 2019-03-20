@@ -13,7 +13,7 @@ public class NsqProducer {
     public  void  nsqProducer(){
         NSQProducer producer=new NSQProducer();
         //ip地址和端口号
-        producer.addAddress("localhost",8081).start();
+        producer.addAddress("localhost",4150).start();
 
         try {
             //名称，发布的消息

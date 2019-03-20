@@ -13,7 +13,7 @@ public class NsqConsumer {
     public  void nsqConsumer(){
         NSQLookup lookup = new DefaultNSQLookup();
         //外网ip地址。lockup端口号
-        lookup.addLookupAddress("localhost",8081);
+        lookup.addLookupAddress("localhost",4161);
         // lookup ,topic名称 ，订阅的消息
         NSQConsumer consumer=new NSQConsumer(lookup, "test", "nsq_to_file", new NSQMessageCallback() {
             @Override
