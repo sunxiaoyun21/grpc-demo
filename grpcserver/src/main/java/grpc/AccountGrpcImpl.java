@@ -1,6 +1,6 @@
 package grpc;
 
-import entity.MybatisUtil;
+import util.MybatisUtil;
 import entity.User;
 import io.grpc.examples.helloworld.GreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
