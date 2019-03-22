@@ -1,6 +1,7 @@
 package nsq;
 
 
+import com.github.brainlag.nsq.NSQConfig;
 import com.github.brainlag.nsq.NSQProducer;
 import com.github.brainlag.nsq.exceptions.NSQException;
 
@@ -14,6 +15,7 @@ public class NsqProducer {
 
 
     public  void  nsqProducer(Map<String, Object> map){
+
         NSQProducer producer=new NSQProducer();
         //ip地址和端口号
         producer.addAddress("localhost",4150).start();
@@ -28,6 +30,7 @@ public class NsqProducer {
                 //名称，发布的消息
                 producer.produce(key,value.getBytes());
             }
+
         } catch (NSQException e) {
             e.printStackTrace();
         } catch (TimeoutException e) {
@@ -35,11 +38,14 @@ public class NsqProducer {
         }
     }
 
+
+
+
     public static void main(String[] args) {
        NsqProducer nsqProducer=new NsqProducer();
        Map<String,Object> map=new HashMap<>();
-       map.put("ceshi","就看对不对");
-        map.put("grpc","就看对不对");
+        map.put("grpc-test","今天开始学习grpc了啊");
+
        nsqProducer.nsqProducer(map);
     }
 

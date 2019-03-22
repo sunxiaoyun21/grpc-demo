@@ -4,6 +4,7 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.examples.helloworld.GreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
+import nsq.NsqConsumer;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -43,6 +44,7 @@ public class GrpcClient {
 
     public static void main(String[] args) throws InterruptedException {
         GrpcClient client = new GrpcClient("localhost",8081);
+        NsqConsumer nsqConsumer=new NsqConsumer();
 
         String user = null;
         try {
@@ -51,6 +53,8 @@ public class GrpcClient {
                 user = args[0];
             }
             client.greet(user);
+            nsqConsumer.nsqConsumer();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

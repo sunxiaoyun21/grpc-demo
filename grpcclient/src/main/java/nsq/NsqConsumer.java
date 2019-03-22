@@ -6,46 +6,32 @@ import com.github.brainlag.nsq.callbacks.NSQMessageCallback;
 import com.github.brainlag.nsq.lookup.DefaultNSQLookup;
 import com.github.brainlag.nsq.lookup.NSQLookup;
 
-//消费者
 public class NsqConsumer {
 
-
-    public  void nsqConsumer(){
+    public  void nsqConsumer() {
         NSQLookup lookup = new DefaultNSQLookup();
         //外网ip地址。lockup端口号
-        lookup.addLookupAddress("localhost",4161);
+        lookup.addLookupAddress("localhost", 4161);
         // lookup ,topic名称 ，订阅的消息
 
-        NSQConsumer consumer=new NSQConsumer(lookup, "topic-grpc", "nsq_to_file", new NSQMessageCallback() {
->>>>>>> bb629bc7228a3623f1d6cff4086a77b8d02db418
-            @Override
+        NSQConsumer nsqConsumer=new NSQConsumer(lookup,"topic-grpc","nsq_to_file",new NSQMessageCallback(){
+
             public void message(NSQMessage nsqMessage) {
                 //获取订阅消息的内容
                 byte b[] = nsqMessage.getMessage();
                 String s= new String(b);
-                System.out.println(nsqMessage.getAttempts());
                 System.out.println(s);
                 nsqMessage.finished();
             }
         });
-        consumer.start();
+
+        nsqConsumer.start();
         //线程睡眠，让程序执行完
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
-
-
-
-
-
-    public static void main(String[] args) {
-        NsqConsumer nsqConsumer=new NsqConsumer();
-
-        nsqConsumer.nsqConsumer();
-    }
-
-
 }
