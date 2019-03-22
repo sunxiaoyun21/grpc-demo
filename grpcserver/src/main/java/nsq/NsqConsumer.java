@@ -17,7 +17,7 @@ public class NsqConsumer {
         // lookup ,topic名称 ，订阅的消息
 
         NSQConsumer consumer=new NSQConsumer(lookup, "topic-grpc", "nsq_to_file", new NSQMessageCallback() {
->>>>>>> bb629bc7228a3623f1d6cff4086a77b8d02db418
+
             @Override
             public void message(NSQMessage nsqMessage) {
                 //获取订阅消息的内容
