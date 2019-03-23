@@ -1,3 +1,10 @@
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.github.brainlag.nsq.NSQConsumer;
+import com.github.brainlag.nsq.NSQMessage;
+import com.github.brainlag.nsq.callbacks.NSQMessageCallback;
+import com.github.brainlag.nsq.lookup.DefaultNSQLookup;
+import com.github.brainlag.nsq.lookup.NSQLookup;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -29,9 +36,9 @@ public class GrpcClient {
         managedChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void greet(String name){
+    public void greet(String name,int score){
         logger.info("Will try to greet " + name + " ...");
-        HelloRequest request=HelloRequest.newBuilder().setName(name).build();
+        HelloRequest request=HelloRequest.newBuilder().setName(name).setScore(score).build();
         HelloReply reply = null;
         try {
             reply=blockingStub.sayHello(request);
@@ -42,18 +49,59 @@ public class GrpcClient {
         logger.info("Greeting: " + reply.getMessage());
     }
 
+    //从nsq中取数据
+    public  void nsqConsumer(String topic) {
+        NSQLookup lookup = new DefaultNSQLookup();
+        //外网ip地址。lockup端口号
+        lookup.addLookupAddress("localhost", 4161);
+
+
+        // lookup ,topic名称 ，订阅的消息
+        NSQConsumer nsqConsumer=new NSQConsumer(lookup,topic,"nsq_to_file",new NSQMessageCallback(){
+
+            public void message(NSQMessage nsqMessage) {
+                //获取订阅消息的内容
+                byte[] b = nsqMessage.getMessage();
+                String s= new String(b);
+                JSON jsonpObject=JSON.parseObject(s);
+                String account=((JSONObject) jsonpObject).getString("account");
+                Integer score=((JSONObject) jsonpObject).getInteger("score");
+                greet(account,score);
+                System.out.println(s);
+
+                nsqMessage.finished();
+
+            }
+        });
+
+        nsqConsumer.start();
+        //线程睡眠，让程序执行完
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void main(String[] args) throws InterruptedException {
         GrpcClient client = new GrpcClient("localhost",8081);
         NsqConsumer nsqConsumer=new NsqConsumer();
+        nsqConsumer.nsqConsumer("score");
+
+
+
 
         String user = null;
+        int score;
         try {
             user = "grpc";
+            score=25;
             if (args.length > 0) {
                 user = args[0];
             }
-            client.greet(user);
-            nsqConsumer.nsqConsumer();
+            client.greet(user,score);
+
 
         } catch (Exception e) {
             e.printStackTrace();
