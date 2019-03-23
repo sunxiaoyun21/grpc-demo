@@ -14,23 +14,22 @@ import java.util.concurrent.TimeoutException;
 public class NsqProducer {
 
 
-    public  void  nsqProducer(Map<String,Object> message){
+    public  void  nsqProducer(Map<String, Object> map){
+
         NSQProducer producer=new NSQProducer();
         //ip地址和端口号
         producer.addAddress("localhost",4150).start();
 
         try {
-            Iterator<Map.Entry<String,Object>> iter = message.entrySet().iterator();
+
+            Iterator<String> iter = map.keySet().iterator();
             while(iter.hasNext()){
-                Map.Entry<String,Object> entry = iter.next();
-                String topic = entry.getKey();
-                String mess = entry.getValue().toString();
-                System.out.println(topic+" "+mess);
+                String key=iter.next();
+                String value = map.get(key).toString();
+                System.out.println(key+" "+value);
                 //名称，发布的消息
-                producer.produce(topic,mess.getBytes());
+                producer.produce(key,value.getBytes());
             }
-
-
 
         } catch (NSQException e) {
             e.printStackTrace();
@@ -46,6 +45,7 @@ public class NsqProducer {
        NsqProducer nsqProducer=new NsqProducer();
        Map<String,Object> map=new HashMap<>();
         map.put("grpc-test","今天开始学习grpc了啊");
+
        nsqProducer.nsqProducer(map);
     }
 

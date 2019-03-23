@@ -15,12 +15,15 @@ public class NsqConsumer {
         //外网ip地址。lockup端口号
         lookup.addLookupAddress("localhost",4161);
         // lookup ,topic名称 ，订阅的消息
+
         NSQConsumer consumer=new NSQConsumer(lookup, "topic-grpc", "nsq_to_file", new NSQMessageCallback() {
+
             @Override
             public void message(NSQMessage nsqMessage) {
                 //获取订阅消息的内容
                 byte b[] = nsqMessage.getMessage();
                 String s= new String(b);
+                System.out.println(nsqMessage.getAttempts());
                 System.out.println(s);
                 nsqMessage.finished();
             }

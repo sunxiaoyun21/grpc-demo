@@ -17,14 +17,13 @@ import java.util.Map;
 public class AccountGrpcImpl extends GreeterGrpc.GreeterImplBase {
       SqlSession session= MybatisUtil.getSqlSession(true);
 
-
     public  void  sayHello(HelloRequest req , StreamObserver<HelloReply> responseObserver){
         AccountDao accountDao=session.getMapper(AccountDao.class);
         User user=accountDao.fetchByAccount(req.getName());
+
         if(null!=user){
             accountDao.updateAccount(req.getName(),req.getScore());
             HelloReply reply= HelloReply.newBuilder().setMessage("正在处理中----").build();
-
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
         }
