@@ -86,22 +86,13 @@ public class GrpcClient {
 
     public static void main(String[] args) throws InterruptedException {
         GrpcClient client = new GrpcClient("localhost",8081);
-        NsqConsumer nsqConsumer=new NsqConsumer();
-        nsqConsumer.nsqConsumer("score");
 
 
 
 
-        String user = null;
-        int score;
         try {
-            user = "grpc";
-            score=25;
-            if (args.length > 0) {
-                user = args[0];
-            }
-            client.greet(user,score);
 
+            client.nsqConsumer("grpc-test");
 
         } catch (Exception e) {
             e.printStackTrace();

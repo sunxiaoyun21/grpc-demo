@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSONObject;
 import nsq.NsqProducer;
 
 import java.util.HashMap;
@@ -7,10 +8,12 @@ import java.util.Map;
 public class CostScore {
     //消费积分放入nsq中
     public static void main(String[] args) {
-       Map<String,Object> map=new HashMap<String, Object>();
-       Map<String,Integer> userAndScore= new HashMap<String,Integer>();
-       userAndScore.put("grcc",25);
-       map.put("score",userAndScore);
+        Map<String,Object> map=new HashMap<String, Object>();
+        Map<String,Object> score=new HashMap<String, Object>();
+        score.put("account","sun");
+        score.put("score",30);
+        JSONObject paramsObj = new JSONObject(score);
+        map.put("grpc-test",paramsObj);
        CostScore costScore=new CostScore();
        costScore.costScore(map);
 

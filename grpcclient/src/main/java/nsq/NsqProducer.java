@@ -46,14 +46,14 @@ public class NsqProducer {
 
 
     public static void main(String[] args) {
-       NsqProducer nsqProducer=new NsqProducer();
-       Map<String,Object> map=new HashMap<String, Object>();
-       Map<String,Object> score=new HashMap<String, Object>();
-       score.put("account","grpc");
-       score.put("score",25);
-       JSONObject paramsObj = new JSONObject(score);
-       map.put("grpc-test",paramsObj);
-       nsqProducer.nsqProducer(map);
+//       NsqProducer nsqProducer=new NsqProducer();
+//       Map<String,Object> map=new HashMap<String, Object>();
+//       Map<String,Object> score=new HashMap<String, Object>();
+//       score.put("account","grpc");
+//       score.put("score",25);
+//       JSONObject paramsObj = new JSONObject(score);
+//       map.put("grpc-test",paramsObj);
+//       nsqProducer.nsqProducer(map);
 
     }
 
